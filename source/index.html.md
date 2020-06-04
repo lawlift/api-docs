@@ -1,16 +1,15 @@
 ---
-title: API Reference
+title: Lawlift API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
+  - bash
+  - javascript 
   - python
-  - javascript
-  - sql
+  - php
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
@@ -20,81 +19,155 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Welcome to the Lawlift API! You can use our API to access Lawlift API endpoints to export data from your system into Lawlift.
 
 # Authentication
 
-> To authorize, use this code:
+> To authorize get the API auth key from the Lawlift app.
 
-```ruby
-require 'kittn'
+> Make sure to replace `API_KEY` with your API key.
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+Lawlift uses API keys to allow access to the API.
 
-```python
-import kittn
+Lawlift expects the API key to be included in all API requests to the server 
+in the request header in the following form:
 
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: Basic API_KEY`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>API_KEY</code> with your personal API key.
 </aside>
 
-# Kittens
+The API Auth key can be retrieved from the Lawlift app.
+Open a Template in editing mode, choose Options and enable the 'API Mapping'.
+The API key will be displayed unencrypted below. 
 
-## Get All Kittens
 
-```ruby
-require 'kittn'
+NOTE: The API auth key will be in the form:
+`<ApiClientId>@<ApiSecretKey>`
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+# Documents
 
-```python
-import kittn
+## Generate a document in the Lawlift app with imported data
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+```bash
+curl -H "Authorization: Basic <ApiKey>" \
+ -H "Content-Type: application/json" \
+ -X POST --data '{"templateId":"<templateId>","data":{"question1yes":true, "client": "Max"}}' \
+ https://app.lawlift.de/api/v1/documents/generate
 ```
 
 ```javascript
-const kittn = require('kittn');
+// NodeJS (server side)
+var request = require('request');
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+var headers = {
+    'Authorization': 'Basic <ApiKey>',
+    'Content-Type': 'application/json'
+};
+
+var dataString = '{"templateId":"<templateId>","data":{"question1yes":true, "client": "Max"}}';
+
+var options = {
+    url: 'https://app.lawlift.de/api/v1/documents/generate',
+    method: 'POST',
+    headers: headers,
+    body: dataString
+};
+
+function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+        console.log(body);
+    }
+}
+
+request(options, callback);
+
 ```
+
+```python 
+import requests
+
+headers = {
+    'Authorization': 'Basic <ApiKey>',
+    'Content-Type': 'application/json',
+}
+
+data = '{"templateId":"<templateId>","data":{"question1yes":true, "client": "Max"}}'
+
+response = requests.post('https://app.lawlift.de/api/v1/documents/generate', headers=headers, data=data)
+
+```
+
+```php 
+<?php
+include('vendor/rmccue/requests/library/Requests.php');
+Requests::register_autoloader();
+$headers = array(
+    'Authorization' => 'Basic <ApiKey>',
+    'Content-Type' => 'application/json'
+);
+$data = '{"templateId":<templateId>,"data":{"question1yes":true}}';
+$response = Requests::post('https://app.lawlift.de/api/v1/documents/generate', $headers, $data);
+
+```
+
+This endpoint generates a new document with the provided data pre-filled and returns a url
+to the new document in Lawlift app.  
+
+### Prerequisites
+To populate imported data into an newly created document based on an existing templates a manual
+mapping of fields has to be provided for the template.
+
+Enable the API Mapping in Lawlift and provide mapping fields for all the answers of a template.
+
+* Login to Lawlift
+* Go to 'Templates'
+* 'Edit' the template you want to map
+* Open 'Options'
+* At the bottom enable 'Api Mapping' and copy the API auth key.
+* At the left hand sidebar enter field names for all the answers you want to map to your export.
+
+The mapping connects fields from the source system 1 to 1 with an answer of a document.
+
+> The import data payload should look like this:
+
+```json
+{
+  "answer1-yes": true,
+  "answer1-no": false, //Can be omitted if it is `false`  
+  "answer2": "First Name",
+  "answer3": "Last Name",
+  "serialAnswer1_Name": ["Client 1", "Client 2", "Client 3"],
+  "serialAnswer1_Address": ["Adresse 1", "Adresse 2","Adresse 3"]
+}
+```
+
+### HTTP Request
+
+`POST https://app.lawlift.de/api/v1/documents/generate`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ------- | -----------
+templateId | String | The Lawlift Id of the template from which a document should be generated. 
+data | JSON | The data object with the mapped fields, can be serialized JSON or encrypted with `tweet-nacl` (Base64). 
+authorEmail (optional) | String | Email of the author of the document.
+clientName (optional) | String | The name of the client.
+caseName (optional) | String | The name of the case. 
+nonce (optional) | String | Only required if data payload is encrypted.
+
+
+# Templates 
+
+## Get all available templates 
+
+```bash
+curl "https://app.lawlift.de/api/v1/templates"
+  -H "Authorization: Basic <api_key>"
+```
+
 
 > The above command returns JSON structured like this:
 
@@ -102,139 +175,39 @@ let kittens = api.kittens.get();
 [
   {
     "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+    "name": "Template name"
   },
   {
     "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "name": "Another template name"
   }
 ]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all templates.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET https://app.lawlift.de/api/v1/templates`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+none
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+# Errors
 
-## Get a Specific Kitten
+The Lawlift API uses the following error codes:
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+Error Code | Meaning
+---------- | -------
+400 | Bad Request -- Your request is invalid.
+401 | Unauthorized -- Your API key is wrong.
+403 | Forbidden -- The resource requested is hidden for administrators only.
+404 | Not Found -- The specified resource could not be found.
+405 | Method Not Allowed -- You tried to access a resource with an invalid method.
+406 | Not Acceptable -- You requested a format that isn't json.
+410 | Gone -- The resource requested has been removed from our servers.
+429 | Too Many Requests -- You're requesting too many resources! Slow down!
+500 | Internal Server Error -- We had a problem with our server. Try again later.
+503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
