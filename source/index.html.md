@@ -197,6 +197,8 @@ curl "https://app.lawlift.de/api/v1/template/:templateId"
   -H "Authorization: Basic <api_key>"
 ```
 
+> The above command returns JSON structured like this:
+
 ```json
 {
   "apiFields": [
