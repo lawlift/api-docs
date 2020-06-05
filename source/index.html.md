@@ -152,6 +152,8 @@ The mapping connects fields from the source system 1 to 1 with an answer of a do
 | authorEmail (optional) | String | Email of the author of the document.                                                                    |
 | clientName (optional)  | String | The name of the client.                                                                                 |
 | caseName (optional)    | String | The name of the case.                                                                                   |
+| meta (optional)        | Object | Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your |
+|                        |        | system and extract it from exported docx files.                                                         |
 | nonce (optional)       | String | Only required if data payload is encrypted.                                                             |
 
 # Templates
