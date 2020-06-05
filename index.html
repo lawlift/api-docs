@@ -241,15 +241,15 @@
                   <li>
                     <a href="#get-all-available-templates" class="toc-h2 toc-link" data-title="Get all available templates">Get all available templates</a>
                   </li>
+                  <li>
+                    <a href="#get-data-for-a-specific-template" class="toc-h2 toc-link" data-title="Get data for a specific template">Get data for a specific template</a>
+                  </li>
               </ul>
           </li>
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
       </ul>
-        <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -265,7 +265,7 @@
 
 <p>Lawlift uses API keys to allow access to the API.</p>
 
-<p>Lawlift expects the API key to be included in all API requests to the server 
+<p>Lawlift expects the API key to be included in all API requests to the server
 in the request header in the following form:</p>
 
 <p><code>Authorization: Basic API_KEY</code></p>
@@ -276,7 +276,7 @@ You must replace <code>API_KEY</code> with your personal API key.
 
 <p>The API Auth key can be retrieved from the Lawlift app.
 Open a Template in editing mode, choose Options and enable the &#39;API Mapping&#39;.
-The API key will be displayed unencrypted below. </p>
+The API key will be displayed unencrypted below.</p>
 
 <p>NOTE: The API auth key will be in the form:
 <code>&lt;ApiClientId&gt;@&lt;ApiSecretKey&gt;</code></p>
@@ -285,30 +285,30 @@ The API key will be displayed unencrypted below. </p>
  <span class="nt">-X</span> POST <span class="nt">--data</span> <span class="s1">'{"templateId":"&lt;templateId&gt;","data":{"question1yes":true, "client": "Max"}}'</span> <span class="se">\</span>
  https://app.lawlift.de/api/v1/documents/generate
 </code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// NodeJS (server side)</span>
-<span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">request</span><span class="dl">"</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Basic &lt;ApiKey&gt;</span><span class="dl">'</span><span class="p">,</span>
-    <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span>
+  <span class="na">Authorization</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Basic &lt;ApiKey&gt;</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">Content-Type</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="kd">var</span> <span class="nx">dataString</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">{"templateId":"&lt;templateId&gt;","data":{"question1yes":true, "client": "Max"}}</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">dataString</span> <span class="o">=</span>
+  <span class="dl">'</span><span class="s1">{"templateId":"&lt;templateId&gt;","data":{"question1yes":true, "client": "Max"}}</span><span class="dl">'</span><span class="p">;</span>
 
 <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://app.lawlift.de/api/v1/documents/generate</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
-    <span class="na">body</span><span class="p">:</span> <span class="nx">dataString</span>
+  <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://app.lawlift.de/api/v1/documents/generate</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">"</span><span class="s2">POST</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
+  <span class="na">body</span><span class="p">:</span> <span class="nx">dataString</span><span class="p">,</span>
 <span class="p">};</span>
 
 <span class="kd">function</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-    <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
-
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -332,7 +332,7 @@ The API key will be displayed unencrypted below. </p>
 
 </code></pre></div>
 <p>This endpoint generates a new document with the provided data pre-filled and returns a url
-to the new document in Lawlift app.  </p>
+to the new document in Lawlift app.</p>
 <h3 id='prerequisites'>Prerequisites</h3>
 <p>To populate imported data into an newly created document based on an existing templates a manual
 mapping of fields has to be provided for the template.</p>
@@ -355,11 +355,11 @@ mapping of fields has to be provided for the template.</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"answer1-yes"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"answer1-no"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="err">//Can</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">omitted</span><span class="w"> </span><span class="err">if</span><span class="w"> </span><span class="err">it</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">`</span><span class="kc">false</span><span class="err">`</span><span class="w">  
+  </span><span class="nl">"answer1-no"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="err">//Can</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">omitted</span><span class="w"> </span><span class="err">if</span><span class="w"> </span><span class="err">it</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">`</span><span class="kc">false</span><span class="err">`</span><span class="w">
   </span><span class="nl">"answer2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"First Name"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"answer3"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Last Name"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"serialAnswer1_Name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Client 1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Client 2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Client 3"</span><span class="p">],</span><span class="w">
-  </span><span class="nl">"serialAnswer1_Address"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Adresse 1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Adresse 2"</span><span class="p">,</span><span class="s2">"Adresse 3"</span><span class="p">]</span><span class="w">
+  </span><span class="nl">"serialAnswer1_Address"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Adresse 1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Adresse 2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Adresse 3"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h3 id='http-request'>HTTP Request</h3>
 <p><code>POST https://app.lawlift.de/api/v1/documents/generate</code></p>
@@ -397,6 +397,16 @@ mapping of fields has to be provided for the template.</p>
 <td>The name of the case.</td>
 </tr>
 <tr>
+<td>meta (optional)</td>
+<td>Object</td>
+<td>Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>system and extract it from exported docx files.</td>
+</tr>
+<tr>
 <td>nonce (optional)</td>
 <td>String</td>
 <td>Only required if data payload is encrypted.</td>
@@ -424,6 +434,22 @@ mapping of fields has to be provided for the template.</p>
 <p><code>GET https://app.lawlift.de/api/v1/templates</code></p>
 <h3 id='query-parameters-2'>Query Parameters</h3>
 <p>none</p>
+<h2 id='get-data-for-a-specific-template'>Get data for a specific template</h2><div class="highlight"><pre class="highlight shell"><code>curl <span class="s2">"https://app.lawlift.de/api/v1/template/:templateId"</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Basic &lt;api_key&gt;"</span>
+</code></pre></div><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"apiFields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"fieldName_1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fieldName_2"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fieldName_3"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fieldName_4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fieldName_5"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fieldName_6"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Retrieve available fields for a template.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>GET https://app.lawlift.de/api/v1/template/:templateId</code></p>
 <h1 id='errors'>Errors</h1>
 <p>The Lawlift API uses the following error codes:</p>
 
