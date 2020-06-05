@@ -436,7 +436,11 @@ mapping of fields has to be provided for the template.</p>
 <p>none</p>
 <h2 id='get-data-for-a-specific-template'>Get data for a specific template</h2><div class="highlight"><pre class="highlight shell"><code>curl <span class="s2">"https://app.lawlift.de/api/v1/template/:templateId"</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Basic &lt;api_key&gt;"</span>
-</code></pre></div><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"apiFields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"fieldName_1"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"fieldName_2"</span><span class="p">,</span><span class="w">
