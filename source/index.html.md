@@ -158,7 +158,7 @@ The mapping connects fields from the source system 1 to 1 with an answer of a do
 
 # Templates
 
-## Get all available templates
+## Get data of all available templates. Returns a list of template Ids and their respective names.
 
 ```bash
 curl "https://app.lawlift.de/api/v1/templates"
