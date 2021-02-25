@@ -170,11 +170,11 @@ curl "https://app.lawlift.de/api/v1/templates"
 ```json
 [
   {
-    "id": 1,
+    "_id": "x13n4s",
     "name": "Template name"
   },
   {
-    "id": 2,
+    "_id": "x23f39",
     "name": "Another template name"
   }
 ]
