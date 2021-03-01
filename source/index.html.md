@@ -193,7 +193,7 @@ none
 ## Get data for a specific template
 
 ```bash
-curl "https://app.lawlift.de/api/v1/template/:templateId"
+curl "https://app.lawlift.de/api/v1/template/<templateId>"
   -H "Authorization: Basic <api_key>"
 ```
 
